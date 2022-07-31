@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/ec2-user/server/src
+cd /home/ec2-user/apiserver/src
 npm start
 pm2 serve --name "absenceManager" -s build
 pm2 startup
