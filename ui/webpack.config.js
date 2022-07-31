@@ -6,6 +6,6 @@ module.exports = {
         filename: 'bundle.js'
     },
     resolve: {
-        extensions: ['.js', '.jsx','.ts','.tsx']
+        extensions: ['.ts', '.tsx', '.js', '.jsx']
       }
 };
