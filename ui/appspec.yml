@@ -6,7 +6,7 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ec2-user/server
+    destination: /home/ec2-user/uiServer
 
 permissions:
   - object: /

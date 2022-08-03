@@ -6,7 +6,7 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ec2-user/apiserver
+    destination: /home/ec2-user/apiServer
 
 permissions:
   - object: /
