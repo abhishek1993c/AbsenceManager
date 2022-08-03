@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/ec2-user/apiserver
+cd /home/ec2-user/apiServer
 npm start
 pm2 start dist/index.js --name "absenceManager-api" --watch -i max
 pm2 startup
