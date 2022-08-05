@@ -1,5 +1,31 @@
 .App {
   text-align: center;
+  height: 920px;
+}
+
+.container {
+  height: calc(100% - 100px);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 70px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  
+  background-color: rgb(213, 214, 255);
+  border-radius: 1px;
+  border-color: black;
+  border-style: solid;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  
+  font-size: xx-large;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .App-logo {
