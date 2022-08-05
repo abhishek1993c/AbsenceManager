@@ -17,8 +17,7 @@ const AbsenceLanding: FC = () => {
     { field: 'startDate', headerName: 'Leave Start' },
     { field: 'endDate', headerName: 'Leave End' },
     { field: 'memberNote', headerName: 'Member Note' },
-    { field: 'admitterNote', headerName: 'Admitter Note' }
-  ]);
+    { field: 'admitterNote', headerName: 'Admitter Note' }]);
 
   useEffect(() => {
     fetch('http://ec2-13-233-141-189.ap-south-1.compute.amazonaws.com:5000/api/absences/getAll')
