@@ -7,6 +7,19 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 const AbsenceLanding: FC = () => {
   const [rowData, setRowData] = useState([]);
+  const [columnDefs, setColumnDefs] = useState([
+    {
+      field: 'userId',
+      headerName: 'Name',
+      minWidth: 50
+    },
+    { field: 'type', headerName: 'Type' },
+    { field: 'startDate', headerName: 'Leave Start' },
+    { field: 'endDate', headerName: 'Leave End' },
+    { field: 'memberNote', headerName: 'Member Note' },
+    { field: 'admitterNote', headerName: 'Admitter Note' }
+  ]);
+
 
   useEffect(() => {
     fetch('http://ec2-13-233-141-189.ap-south-1.compute.amazonaws.com:5000/api/absences/getAll')
@@ -26,18 +39,13 @@ const AbsenceLanding: FC = () => {
       </div>
         <div className="ag-theme-alpine ag-style landing-table">
           <AgGridReact
-            defaultColDef={{ flex: 1 }}
+            defaultColDef={{ flex: 1, minWidth: 50 }}
             rowHeight={60}
             pagination={true}
             paginationPageSize={10}
-            rowData={rowData} >
-            <AgGridColumn field="userId" headerName="ID" sortable={true} filter={false} cellClass="vertical-middle" />
-            <AgGridColumn field="type" headerName="Type" sortable={true} filter={true} cellClass="vertical-middle" />
-            <AgGridColumn field="startDate" headerName="Start Date" sortable={true} filter={true} cellClass="vertical-middle" />
-            <AgGridColumn field="endDate" headerName="End Date" sortable={true} filter={true} cellClass="vertical-middle" />
-            <AgGridColumn field="memberNote" headerName="Member Note" sortable={true} filter={false} cellClass="vertical-middle" />
-            <AgGridColumn field="admitterNote" headerName="Admitter Note" sortable={true} filter={false} cellClass="vertical-middle" />
-            {/* <AgGridColumn field="avatar" headerName="Avatar" sortable={true} filter={true} cellRendererFramework={avatarFormatter} cellClass="vertical-middle" /> */}
+            rowData={rowData}
+            columnDefs={columnDefs}>
+
         </AgGridReact>
       </div>
     </div>
