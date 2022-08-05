@@ -4,19 +4,19 @@
     height: inherit;
 }
 
-.landing-table {
+/* .landing-table {
     height: 100%;
-}
+} */
 
 .ag-style {
     height: 600px;
     width: 100%;
   }
    
-  .vertical-middle {
+  /* .vertical-middle {
     display: flex;
     align-items: center;
-  }
+  } */
    
   .vertical-middle img {
     display: block;
