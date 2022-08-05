@@ -19,8 +19,7 @@ const AbsenceLanding: FC = () => {
     { field: 'memberNote', headerName: 'Member Note' },
     { field: 'admitterNote', headerName: 'Admitter Note' }
   ]);
-
-
+  
   useEffect(() => {
     fetch('http://ec2-13-233-141-189.ap-south-1.compute.amazonaws.com:5000/api/absences/getAll')
       .then(res => res.json())
@@ -39,13 +38,13 @@ const AbsenceLanding: FC = () => {
       </div>
         <div className="ag-theme-alpine ag-style landing-table">
           <AgGridReact
+
             defaultColDef={{ flex: 1, minWidth: 50 }}
             rowHeight={60}
             pagination={true}
             paginationPageSize={10}
             rowData={rowData}
             columnDefs={columnDefs}>
-
         </AgGridReact>
       </div>
     </div>
