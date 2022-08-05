@@ -20,6 +20,7 @@ const AbsenceLanding: FC = () => {
     { field: 'admitterNote', headerName: 'Admitter Note' }
   ]);
 
+
   useEffect(() => {
     fetch('http://ec2-13-233-141-189.ap-south-1.compute.amazonaws.com:5000/api/absences/getAll')
       .then(res => res.json())
@@ -44,6 +45,7 @@ const AbsenceLanding: FC = () => {
             paginationPageSize={10}
             rowData={rowData}
             columnDefs={columnDefs}>
+
         </AgGridReact>
       </div>
     </div>
