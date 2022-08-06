@@ -6,6 +6,7 @@ import cors from 'cors';
 import absenceRouter from './routes/absences';
 import memberRouter from './routes/members';
 import computed from './routes/computedRoutes';
+import computed from './routes/computedRoutes';
 
 dotenv.config();
 
