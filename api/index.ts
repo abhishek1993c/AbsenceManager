@@ -18,8 +18,8 @@ app.use(cors({
 app.use(express.json({ 'extended': false } as bodyParser.OptionsJson));
 
 app.use('/api/absences/', absenceRouter);
-app.use('/api/members', memberRouter);
-app.use('/api/computed', computed);
+app.use('/api/members/', memberRouter);
+app.use('/api/computed/', computed);
 
 app.get('*', (req: Request, res: Response) => {
   res.status(406).send('Please be specific with the endpoint');
