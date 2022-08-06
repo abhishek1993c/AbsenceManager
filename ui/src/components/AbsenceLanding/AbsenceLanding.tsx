@@ -1,22 +1,21 @@
 import React, { FC, useState, useEffect, useCallback } from 'react';
-import { AgGridReact } from 'ag-grid-react';
-import './AbsenceLanding.css';
-
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { Button } from '@mui/material';
 
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+
+import saveICall from '../../library/iCalendar';
+import './AbsenceLanding.css';
 const AbsenceLanding: FC = () => {
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [rowData, setRowData] = useState([]);
+  const [selectedRow, setSelectedRow] = useState<number | null>();
+  const [rowData, setRowData] = useState<Array<any>>([]);
   const [metaData, setMetaData] = useState<any>();
   const [columnDefs, setColumnDefs] = useState([
     {
       field: 'name',
       headerName: 'Name',
       minWidth: 50,
-      headerCheckboxSelection: true,
-      headerCheckboxSelectionFilteredOnly: true,
       checkboxSelection: true
     },
     {
@@ -31,8 +30,7 @@ const AbsenceLanding: FC = () => {
     { field: 'admitterNote', headerName: 'Admitter Note' }]);
 
   useEffect(() => {
-    // fetch('http://ec2-13-233-141-189.ap-south-1.compute.amazonaws.com:5000/api/computed/getTableData?sort=date')
-    fetch('http://localhost:5000/api/computed/getTableData?sort=date')
+    fetch('http://ec2-13-233-141-189.ap-south-1.compute.amazonaws.com:5000/api/computed/getTableData?sort=date')
       .then(res => res.json())
       .then(result => { setRowData(result.data); setMetaData(result.meta); });
   }, []);
@@ -43,8 +41,20 @@ const AbsenceLanding: FC = () => {
   }
 
   const onSelectionChanged = useCallback((event) => {
-    setSelectedRows(event.api.getSelectedNodes().map(selection => selection.rowIndex));
+    setSelectedRow(event.api.getSelectedNodes()[0]?.rowIndex ?? null);
   }, []);
+
+  const onGenerateICal = (e:any) => {
+    if (selectedRow === null || selectedRow === undefined) return;
+    const event: any = {};
+    const currentAbsence = rowData[selectedRow];
+    event.dateStart = currentAbsence.startDate;
+    event.dateEnd = currentAbsence.endDate;
+    event.name = `Absence of ${currentAbsence.name} starting ${currentAbsence.startDate}`;
+    event.description = `${currentAbsence.name} is on absence of type ${currentAbsence.type} starting ${currentAbsence.startDate} and ending on ${currentAbsence.endDate}`;
+    event.address = 'Calendar';
+    saveICall(event);
+  }
 
   return (
     <div className="absence-landing-container">
@@ -55,9 +65,9 @@ const AbsenceLanding: FC = () => {
         <div className='total-absences'>
           Total Absences: {metaData?.total}
         </div>
-        {selectedRows?.length > 0 &&
+        {selectedRow !== null &&
         <div>
-          <Button variant="outlined">Generate iCal</Button>
+          <Button variant="outlined" onClick={onGenerateICal}>Generate iCal</Button>
         </div>}
       </div>
       <div className="ag-theme-alpine ag-style landing-table">
@@ -66,7 +76,6 @@ const AbsenceLanding: FC = () => {
           rowHeight={60}
           pagination={true}
           paginationPageSize={10}
-          rowSelection={'multiple'}
           rowData={rowData}
           columnDefs={columnDefs}
           onSelectionChanged={onSelectionChanged}>
