@@ -15,9 +15,10 @@ const getStatus = (confirmed: Date, rejected: Date) => {
 //  @desc       get computed list
 //  @access     Public
 router.get('/getTableData', async (req, res) => {
+  const params = req.query;
   Promise.all([absences(), members()]).then((responses)=>{
     const [absencesRes, membersRes] = responses;
-    const computedRes = absencesRes.map((absence: any)=>{
+    const computedRes: Array<any> = absencesRes.map((absence: any)=>{
       let obj = absence;
       obj.name = membersRes.filter((member: any)=> member.userId === obj.userId).map((member: any)=> member.name)[0];
       obj.status = getStatus(obj.confirmedAt, obj.rejectedAt);
@@ -26,7 +27,12 @@ router.get('/getTableData', async (req, res) => {
       delete obj.id;
       return obj;
     });
-    res.status(200).send(computedRes);
+    if(params.sort){
+      computedRes.sort((a,b)=>new Date(a.startDate).getTime()-new Date(b.startDate).getTime());
+    }
+    const meta: any = {};
+    meta.total = computedRes.length ?? 0;
+    res.status(200).send({meta, data: computedRes});
   });
 });
 
