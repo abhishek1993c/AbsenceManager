@@ -55,7 +55,7 @@ const AbsenceLanding: FC = () => {
         <div className='total-absences'>
           Total Absences: {metaData?.total}
         </div>
-        {selectedRows.length > 0 &&
+        {selectedRows?.length > 0 &&
         <div>
           <Button variant="outlined">Generate iCal</Button>
         </div>}
