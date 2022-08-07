@@ -6,9 +6,11 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import saveICall from '../../library/iCalendar';
+import filterParams from '../../library/dateFilterParams';
 import './AbsenceLanding.css';
+
 const AbsenceLanding: FC = () => {
-  const [selectedRow, setSelectedRow] = useState<number | null>();
+  const [selectedRow, setSelectedRow] = useState<number | null>(null);
   const [rowData, setRowData] = useState<Array<any>>([]);
   const [metaData, setMetaData] = useState<any>();
   const [columnDefs, setColumnDefs] = useState([
@@ -23,25 +25,27 @@ const AbsenceLanding: FC = () => {
       headerName: 'Type',
       filter: 'agSetColumnFilter'
     },
-    { field: 'startDate', headerName: 'Leave Start' },
-    { field: 'endDate', headerName: 'Leave End' },
+    { field: 'startDate', headerName: 'Leave Start', filter: 'agDateColumnFilter', filterParams: filterParams, floatingFilter: true },
+    { field: 'endDate', headerName: 'Leave End', filter: 'agDateColumnFilter', filterParams: filterParams, floatingFilter: true },
     { field: 'memberNote', headerName: 'Member Note' },
     { field: 'status', headerName: 'Status' },
     { field: 'admitterNote', headerName: 'Admitter Note' }]);
 
   useEffect(() => {
     fetch('http://ec2-13-233-141-189.ap-south-1.compute.amazonaws.com:5000/api/computed/getTableData?sort=date')
-      .then(res => res.json())
-      .then(result => { setRowData(result.data); setMetaData(result.meta); });
+    // fetch('http://localhost:5000/api/computed/getTableData?sort=date')
+      .then(res => res.json()).catch((error) => {
+        console.error(`API load error: ${error}`);
+      })
+      .then(result => { setRowData(result.data); setMetaData(result.meta); })
+      .catch((error) => {
+        console.error(`API response parse error: ${error}`);
+      });
   }, []);
 
-  // eslint-disable-next-line
-  const avatarFormatter = ({ value }) => {
-    return <img src={value} width="50px" height="50px" />
-  }
-
   const onSelectionChanged = useCallback((event) => {
-    setSelectedRow(event.api.getSelectedNodes()[0]?.rowIndex ?? null);
+    console.log(event.api.getSelectedNodes());
+    setSelectedRow(Number(event.api.getSelectedNodes()[0]?.id) ?? null);
   }, []);
 
   const onGenerateICal = (e:any) => {
@@ -65,20 +69,28 @@ const AbsenceLanding: FC = () => {
         <div className='total-absences'>
           Total Absences: {metaData?.total}
         </div>
-        {selectedRow !== null &&
-        <div>
-          <Button variant="outlined" onClick={onGenerateICal}>Generate iCal</Button>
-        </div>}
+        {selectedRow !== null
+          ? <div className='generate-iCal-button'>
+            <Button variant="outlined" onClick={onGenerateICal}>Generate iCal</Button>
+          </div>
+          : <div className='generate-iCal-static-text'>
+            Select an absence to general iCal
+          </div>
+        }
       </div>
       <div className="ag-theme-alpine ag-style landing-table">
         <AgGridReact
-          defaultColDef={{ flex: 1, minWidth: 50, filter: true }}
+          defaultColDef={{ flex: 1, minWidth: 50 }}
           rowHeight={60}
           pagination={true}
           paginationPageSize={10}
           rowData={rowData}
           columnDefs={columnDefs}
-          onSelectionChanged={onSelectionChanged}>
+          onSelectionChanged={onSelectionChanged}
+          overlayLoadingTemplate={
+            '<span class="ag-overlay-loading-center">Please wait while your rows are loading</span>'
+          }
+          overlayNoRowsTemplate={'<span style="padding: 10px; border: 2px solid #444; background: lightgoldenrodyellow">No rows to show at the moment</span>'}>
         </AgGridReact>
       </div>
     </div>

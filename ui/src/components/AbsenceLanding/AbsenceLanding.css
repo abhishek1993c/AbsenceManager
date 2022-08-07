@@ -30,6 +30,17 @@
     align-self: center;
   }
 
+  .generate-iCal-static-text {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 300;
+    align-self: center;
+    padding-right: 10px;
+  }
+
+  .generate-iCal-button {
+    padding-right: 10px;
+  }
+
   .table-top-content {
     display: flex;
     justify-content: space-between;
