@@ -1,8 +1,6 @@
 import React, { FC, useState, useEffect, useCallback } from 'react';
 import { Button } from '@mui/material';
 
-import { Button } from '@mui/material';
-
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
@@ -49,18 +47,6 @@ const AbsenceLanding: FC = () => {
     console.log(event.api.getSelectedNodes());
     setSelectedRow(Number(event.api.getSelectedNodes()[0]?.id) ?? null);
   }, []);
-
-  const onGenerateICal = (e:any) => {
-    if (selectedRow === null || selectedRow === undefined) return;
-    const event: any = {};
-    const currentAbsence = rowData[selectedRow];
-    event.dateStart = currentAbsence.startDate;
-    event.dateEnd = currentAbsence.endDate;
-    event.name = `Absence of ${currentAbsence.name} starting ${currentAbsence.startDate}`;
-    event.description = `${currentAbsence.name} is on absence of type ${currentAbsence.type} starting ${currentAbsence.startDate} and ending on ${currentAbsence.endDate}`;
-    event.address = 'Calendar';
-    saveICall(event);
-  }
 
   const onGenerateICal = (e:any) => {
     if (selectedRow === null || selectedRow === undefined) return;
