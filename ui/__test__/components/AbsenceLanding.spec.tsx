@@ -4,19 +4,7 @@ import '@testing-library/jest-dom'
 
 import AbsenceLanding from '../../src/components/AbsenceLanding';
 
-// global.fetch = jest.fn(() =>
-//   Promise.resolve({
-//     json: () => Promise.resolve({ rates: { CAD: 1.42 } }),
-//   })
-// );
-
-// beforeEach(() => {
-//   fetch.mockClear();
-// });
-// Note: running cleanup afterEach is done automatically for you in @testing-library/react@9.0.0 or higher
-// unmount and cleanup DOM after the test is finished.
 afterEach(cleanup);
-
 
 describe("When the component is rendered", () => {
   it("should show the content heading", async () => {
