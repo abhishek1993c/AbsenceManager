@@ -33,7 +33,11 @@ router.get('/getTableData', async (req, res) => {
     const meta: any = {};
     meta.total = computedRes.length ?? 0;
     res.status(200).send({meta, data: computedRes});
-  });
+  })
+  .catch((error) => {
+    console.error(`Absence Error: ${error}`);
+    return res.status(500).send({data: null, error: error})
+  })
 });
 
 router.get('*',(req,res)=>res.status(404).send(`Endpoint does not exist.`));
